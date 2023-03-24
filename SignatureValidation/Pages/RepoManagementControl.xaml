@@ -1,0 +1,123 @@
+﻿<UserControl
+    x:Class="SignatureValidation.Pages.RepoManagementControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    TextElement.FontSize="13"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style
+            x:Key="ButtonStyle"
+            BasedOn="{StaticResource MaterialDesignRaisedButton}"
+            TargetType="Button">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style
+            x:Key="TextBoxStyle"
+            BasedOn="{StaticResource MaterialDesignOutlinedTextBox}"
+            TargetType="TextBox">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+        <Style
+            x:Key="LabelStyle"
+            BasedOn="{StaticResource MaterialDesignLabel}"
+            TargetType="Label">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style x:Key="MdCardStyle" TargetType="md:Card">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <md:Card Grid.Row="0" Style="{StaticResource MdCardStyle}">
+            <StackPanel>
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="{Binding Title}" />
+                </StackPanel>
+                <Label Content="Select Repository File" Style="{StaticResource LabelStyle}" />
+                <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding FilePath, Mode=TwoWay}" />
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="File Name:" Style="{StaticResource LabelStyle}" />
+                    <Label Content="{Binding FileNameOnly}" Style="{StaticResource LabelStyle}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="File Location:" Style="{StaticResource LabelStyle}" />
+                    <Label Content="{Binding FileFolderPath}" Style="{StaticResource LabelStyle}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Command="{Binding PickFileCommand}"
+                        Content="Browse File"
+                        Style="{StaticResource ButtonStyle}" />
+                    <Button
+                        Command="{Binding LoadListCommand}"
+                        Content="Load Repo"
+                        Style="{StaticResource ButtonStyle}" />
+                    <Button
+                        Command="{Binding ClearListCommand}"
+                        Content="Clear List"
+                        Style="{StaticResource ButtonStyle}"
+                        Visibility="{Binding IsButtonVisible}" />
+                </StackPanel>
+            </StackPanel>
+        </md:Card>
+
+        <ProgressBar
+            Grid.Row="1"
+            IsIndeterminate="True"
+            Visibility="{Binding IsLoaderVisible}" />
+
+        <DataGrid
+            Grid.Row="2"
+            AlternationCount="2"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding HashList, Mode=TwoWay}"
+            Style="{StaticResource MaterialDesignDataGrid}"
+            Visibility="{Binding IsHashListVisible}">
+            <DataGrid.AlternatingRowBackground>
+                <SolidColorBrush Color="{StaticResource SecondaryColor}" />
+            </DataGrid.AlternatingRowBackground>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ImageName}" Header="ImageName" />
+
+                <DataGridTextColumn Binding="{Binding SigType1}" Header="Sig Type 1" />
+                <DataGridTextColumn Binding="{Binding Sig1}" Header="Sig 1" />
+
+                <DataGridTextColumn Binding="{Binding SigType2}" Header="Sig Type 2" />
+                <DataGridTextColumn Binding="{Binding Sig2}" Header="Sig 2" />
+
+                <DataGridTextColumn Binding="{Binding SigType3}" Header="Sig Type 3" />
+                <DataGridTextColumn Binding="{Binding Sig3}" Header="Sig 3" />
+
+                <DataGridTextColumn Binding="{Binding SigType4}" Header="Sig Type 4" />
+                <DataGridTextColumn Binding="{Binding Sig4}" Header="Sig 4" />
+
+                <DataGridTextColumn Binding="{Binding SigType5}" Header="Sig Type 5" />
+                <DataGridTextColumn Binding="{Binding Sig5}" Header="Sig 5" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
