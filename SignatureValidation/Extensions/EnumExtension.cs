@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SignatureValidation.Extensions
 {
@@ -12,13 +7,14 @@ namespace SignatureValidation.Extensions
     {
         public static string GetDesc(this Enum value)
         {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
-            DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
-            if (attributes != null && attributes.Any())
+            FieldInfo? fi = value?.GetType().GetField(value.ToString());
+
+            if (fi?.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes && attributes.Length > 0)
             {
-                return attributes.First().Description;
+                return attributes[0].Description;
             }
-            return value.ToString();
+
+            return value?.ToString() ?? string.Empty;
         }
     }
 }

@@ -19,8 +19,9 @@ public class FileHelper
     private static string numberPattern = " ({0})";
 
     #region Tasks & Methods
+
     /// <summary>
-    /// Load CSV File from provided file location 
+    /// Load CSV File from provided file location
     /// </summary>
     /// <typeparam name="T">Model which is based on the csv file</typeparam>
     /// <param name="fileName">relative or absolute file path</param>
@@ -46,7 +47,7 @@ public class FileHelper
     }
 
     /// <summary>
-    /// Load CSV File from provided file location 
+    /// Load CSV File from provided file location
     /// </summary>
     /// <typeparam name="T">Model which is based on the csv file</typeparam>
     /// <param name="fileName">relative or absolute file path</param>
@@ -66,8 +67,9 @@ public class FileHelper
         var records = csv.GetRecordsAsync<T>();
         return records;
     }
+
     /// <summary>
-    /// Load CSV File from provided file absolute path  
+    /// Load CSV File from provided file absolute path
     /// </summary>
     /// <typeparam name="T">Model which is based on the csv file</typeparam>
     /// <param name="fullPath">absolute file path</param>
@@ -86,6 +88,7 @@ public class FileHelper
             return records;
         }
     }
+
     /// <summary>
     /// Save CSV File to the provided filepath
     /// </summary>
@@ -109,7 +112,7 @@ public class FileHelper
     }
 
     /// <summary>
-    /// Check if file name already exist and provide new filename if required 
+    /// Check if file name already exist and provide new filename if required
     /// </summary>
     /// <param name="path">Absolute filepath</param>
     /// <returns>filename string</returns>
@@ -160,6 +163,7 @@ public class FileHelper
         }
 
         return string.Format(pattern, max);
-    } 
-    #endregion
+    }
+
+    #endregion Tasks & Methods
 }

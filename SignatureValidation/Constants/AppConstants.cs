@@ -1,7 +1,7 @@
 ﻿namespace SignatureValidation.Constants;
 
 /// <summary>
-/// Applications all constants 
+/// Applications all constants
 /// </summary>
 internal struct AppConstants
 {

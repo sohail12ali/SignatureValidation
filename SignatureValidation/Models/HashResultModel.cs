@@ -1,7 +1,6 @@
-﻿using CsvHelper.Configuration.Attributes;
-using CommunityToolkit.Mvvm;
-using SignatureValidation.ViewModels;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+using CsvHelper.Configuration.Attributes;
 
 namespace SignatureValidation.Models
 {

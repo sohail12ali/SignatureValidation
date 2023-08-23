@@ -20,6 +20,7 @@ public partial class BaseViewModel : ObservableObject
     #endregion Properties & Fields
 
     #region Tasks & Methods
+
     protected MessageBoxResult ShowAlert(string message, string title, MessageBoxButton button, MessageBoxImage icon)
     {
         MessageBoxResult result = MessageBox.Show(message, title, button, icon, MessageBoxResult.Yes);
@@ -32,5 +33,6 @@ public partial class BaseViewModel : ObservableObject
         Debug.WriteLine(ex);
         return result;
     }
-    #endregion
+
+    #endregion Tasks & Methods
 }

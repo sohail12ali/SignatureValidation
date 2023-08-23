@@ -4,7 +4,6 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 
 using SignatureValidation.Constants;
-using SignatureValidation.Helpers;
 using SignatureValidation.Models;
 using SignatureValidation.Services;
 

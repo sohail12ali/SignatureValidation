@@ -7,7 +7,7 @@ namespace SignatureValidation.Mappers;
 public class HashResultModelMapper : ClassMap<HashResultModel>
 {
     /// <summary>
-    /// Mapping HashResultModel for CSV Helper 
+    /// Mapping HashResultModel for CSV Helper
     /// </summary>
     public HashResultModelMapper()
     {

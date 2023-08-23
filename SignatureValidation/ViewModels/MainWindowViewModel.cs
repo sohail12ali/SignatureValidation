@@ -33,7 +33,6 @@ public partial class MainWindowViewModel : BaseViewModel
 
     #region Tasks & Methods
 
-
     /// <summary>
     /// Switch to Repo Page
     /// </summary>

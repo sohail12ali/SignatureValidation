@@ -23,7 +23,7 @@ public static class StringExtension
     }
 
     /// <summary>
-    /// Custom Triming method to operate on string and convert it to upper case and revmove all blank spaces from the text 
+    /// Custom Triming method to operate on string and convert it to upper case and revmove all blank spaces from the text
     /// </summary>
     /// <param name="text"></param>
     /// <returns>string</returns>

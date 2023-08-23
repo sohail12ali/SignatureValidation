@@ -2,11 +2,15 @@
     x:Class="SignatureValidation.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="PrimaryColor">#170099</Color>
             <Color x:Key="SecondaryColor">#42d4f5</Color>
+
+            <System:Boolean x:Key="FalseValue">False</System:Boolean>
+            <System:Boolean x:Key="TrueValue">True</System:Boolean>
 
             <ResourceDictionary.MergedDictionaries>
                 <md:BundledTheme

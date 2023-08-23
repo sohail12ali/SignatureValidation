@@ -1,8 +1,6 @@
-﻿using CommunityToolkit.Diagnostics;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Win32;
 
 using SignatureValidation.Constants;
@@ -142,7 +140,7 @@ public partial class ResultManagementViewModel : BaseViewModel
         }
         finally
         {
-            IsLoaderVisible = Visibility.Hidden; 
+            IsLoaderVisible = Visibility.Hidden;
         }
         return Task.CompletedTask;
     }
@@ -165,7 +163,7 @@ public partial class ResultManagementViewModel : BaseViewModel
     /// </summary>
     /// <returns></returns>
     [RelayCommand]
-    private async Task ValidateData()
+    private async Task ValidateData(bool isParallelCall = false)
     {
         try
         {
@@ -175,15 +173,21 @@ public partial class ResultManagementViewModel : BaseViewModel
             Guard.IsTrue(repoData.Any());
             Guard.IsTrue(HashList.Any());
 
-            //foreach (HashResultModel item in HashList)
-            //{
-            //    ValidateData(repoData, item);
-            //}
-
-            Parallel.ForEach(HashList, item =>
+            if (isParallelCall)
             {
-                ValidateData(repoData, item);
-            });
+                Parallel.ForEach(HashList, item =>
+                {
+                    ValidateDataFromParallel(repoData, item);
+                });
+            }
+            else
+            {
+                foreach (HashResultModel item in HashList)
+                {
+                    ValidateData(repoData, item);
+                }
+            }
+
 
             ShowAlert(AppResources.ValidationCompleteMessage, AppResources.ValidationCompleteTitle, MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -231,12 +235,13 @@ public partial class ResultManagementViewModel : BaseViewModel
     }
 
     #region Validate Data
+
     /// <summary>
     /// Validatation process of result data with repo data
     /// </summary>
     /// <param name="repoData"></param>
     /// <param name="item"></param>
-    private static void ValidateDataOld(IEnumerable<HashRepoModel> repoData, HashResultModel item)
+    private static void ValidateData(IEnumerable<HashRepoModel> repoData, HashResultModel item)
     {
         var t1 = repoData.Where(x => x.ImageName!.Tm().Equals(item?.FileFolderName?.Tm()));
         if (t1 is not null && t1.Any())
@@ -283,7 +288,7 @@ public partial class ResultManagementViewModel : BaseViewModel
     /// </summary>
     /// <param name="repoData"></param>
     /// <param name="item"></param>
-    private static void ValidateData(IEnumerable<HashRepoModel> repoData, HashResultModel item)
+    private static void ValidateDataFromParallel(IEnumerable<HashRepoModel> repoData, HashResultModel item)
     {
         var matchingRepoData = repoData.Where(x => x.ImageName!.Tm().Equals(item?.FileFolderName?.Tm()));
 
