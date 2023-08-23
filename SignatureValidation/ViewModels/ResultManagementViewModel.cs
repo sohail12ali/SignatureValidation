@@ -49,6 +49,16 @@ public partial class ResultManagementViewModel : BaseViewModel
     [ObservableProperty]
     private Visibility isButtonVisible = Visibility.Hidden;
 
+    // Use a dictionary to map SignatureType to validation methods
+    private static readonly Dictionary<SignatureType, Action<HashResultModel, IEnumerable<HashRepoModel>?>> ValidationMethods = new()
+    {
+        { SignatureType.SHA1, SHA1 },
+        { SignatureType.MD5, MD5 },
+        { SignatureType.CRC16, CRC16 },
+        { SignatureType.CRC32, CRC32 },
+        { SignatureType.HMACSHA1, HMACSHA1 },
+    };
+
     public ResultManagementViewModel(FileHelper fileHelper, OpenFileDialog fileDialog, DataAccessService dataAccessService, SaveFileDialog saveFileDialog)
     {
         Title = AppResources.ResultPageTitle;
@@ -165,10 +175,15 @@ public partial class ResultManagementViewModel : BaseViewModel
             Guard.IsTrue(repoData.Any());
             Guard.IsTrue(HashList.Any());
 
-            foreach (HashResultModel item in HashList)
+            //foreach (HashResultModel item in HashList)
+            //{
+            //    ValidateData(repoData, item);
+            //}
+
+            Parallel.ForEach(HashList, item =>
             {
                 ValidateData(repoData, item);
-            }
+            });
 
             ShowAlert(AppResources.ValidationCompleteMessage, AppResources.ValidationCompleteTitle, MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -221,7 +236,7 @@ public partial class ResultManagementViewModel : BaseViewModel
     /// </summary>
     /// <param name="repoData"></param>
     /// <param name="item"></param>
-    private static void ValidateData(IEnumerable<HashRepoModel> repoData, HashResultModel item)
+    private static void ValidateDataOld(IEnumerable<HashRepoModel> repoData, HashResultModel item)
     {
         var t1 = repoData.Where(x => x.ImageName!.Tm().Equals(item?.FileFolderName?.Tm()));
         if (t1 is not null && t1.Any())
@@ -255,6 +270,30 @@ public partial class ResultManagementViewModel : BaseViewModel
                     default:
                         break;
                 }
+            }
+        }
+        else
+        {
+            item.Validation = ValidationResult.NO_FILE.GetDesc();
+        }
+    }
+
+    /// <summary>
+    /// Validatation process of result data with repo data
+    /// </summary>
+    /// <param name="repoData"></param>
+    /// <param name="item"></param>
+    private static void ValidateData(IEnumerable<HashRepoModel> repoData, HashResultModel item)
+    {
+        var matchingRepoData = repoData.Where(x => x.ImageName!.Tm().Equals(item?.FileFolderName?.Tm()));
+
+        if (matchingRepoData.Any())
+        {
+            item.Validation = ValidationResult.NO_SIGN_TYPE_MATCH.GetDesc();
+
+            if (ValidationMethods.TryGetValue(Enum.Parse<SignatureType>(item.SignatureType?.Tm()!), out var validationMethod))
+            {
+                validationMethod(item, matchingRepoData);
             }
         }
         else
